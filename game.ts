@@ -1,3 +1,4 @@
+import { stat } from 'fs';
 import { stdin, stdout } from 'process';
 import readline from 'readline';
 
@@ -35,9 +36,9 @@ interface SpartanHistory {
 
 const generateStatValue = (): number => { return (Math.random() * 10) + 1 };
 
-const generateTraitSelection = (): Trait => {
-    const selection = (Math.random() * 4) + 1;
-    switch (selection) {
+const generateTraitSelection = (selection?: number): Trait => {
+    const _selection = selection ? selection : (Math.random() * 4) + 1;
+    switch (_selection) {
         case 1: 
             return Trait.LEROY;
         case 2: 
@@ -101,15 +102,19 @@ interface Roster  {
     spartans: Spartan[]    
 };
 
+
+const ROSTERS: Roster[] = [];
 let rosterIdCount = 0;
 const createRoster = (name: string): Roster => {
     const currentIdCount = rosterIdCount;
     rosterIdCount++; 
-    return { 
+    let newRoster = { 
         id: currentIdCount, 
         name, 
         spartans: [] 
     };
+    ROSTERS.push(newRoster);
+    return newRoster;
 };
 
 // roster id 0 is global free agents
@@ -124,18 +129,17 @@ type Profile = {
 };
 
 // main menu - functions as game entry point
-
 const rl = readline.createInterface(stdin, stdout);
 
 const menu = (query: string) => {
     rl.question(query, async (answer) => { 
         if (answer.includes('1')) {
-            freeAgents.spartans.push(createSpartan({name: "a new spartan", bio: "test bio"}));
+            handleAddSpartan();
             menu(query);
         } else if (answer.includes('2')) {
             for await (const spartan of freeAgents.spartans) {
-                console.log(spartan.name)
-                console.log(spartan.id)
+                console.log(spartan.name);
+                console.log(spartan.id);
             }
             menu(query);
         } else if (answer.includes('3')) {
@@ -147,10 +151,38 @@ const menu = (query: string) => {
             menu(query);
         }    
     });
-}
+};
+
+
+const handleAddSpartan = () => {
+    let name = "";
+    let bio =  "";
+    let id = 0;
+    let stats = generateStats();
+    rl.question("Enter name: ", (answer) => {
+        name = answer;
+    });
+    rl.question("Enter bio: ", (answer) => {
+        bio = answer;
+    });
+    rl.question("Enter roster ID: ", (answer) => {
+        id = parseInt(answer);
+    });
+    rl.question("Enter stat spread: ", (answer) => {
+        let values = answer.split(' ').map((val) => {
+            return parseInt(val);
+        });
+        stats.aim = values[0];
+        stats.awareness = values[1];
+        stats.reactions = values[2];
+        stats.aggression = values[3];
+        stats.power = values[4];
+        stats.teamplay = values[5];
+        stats.trait = generateTraitSelection(values[6]);
+    });
+};
 
 // start game with main menu
-
 const game = () => {
     const query = "1. add new spartan to roster\n2. display roster\n3. quit";
     menu(query);
