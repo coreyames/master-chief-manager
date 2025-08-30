@@ -1,0 +1,23 @@
+{
+  "name": "master-chief-manager",
+  "version": "1.0.0",
+  "description": "mcm game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coreyames/master-chief-manager.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/coreyames/master-chief-manager/issues"
+  },
+  "homepage": "https://github.com/coreyames/master-chief-manager#readme",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^24.3.0"
+  }
+}
