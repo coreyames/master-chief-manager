@@ -5,12 +5,13 @@ interface SpartanBaseConfig {
     bio: string,
 };
 
-enum Trait {
-    LEROY,
-    COWARD,
-    AVGJOE,
-    NONE
-};
+const TraitEnum = {
+    NONE: 0,
+    LEROY: 1,
+    COWARD: 2,
+    AVGJOE: 3 
+} as const;
+type Trait = typeof TraitEnum[keyof typeof TraitEnum];
 
 interface SpartanStats {
     aim: number,
@@ -37,15 +38,15 @@ const generateTraitSelection = (selection?: number): Trait => {
     const _selection = selection ? selection : (Math.random() * 4) + 1;
     switch (_selection) {
         case 1: 
-            return Trait.LEROY;
+            return TraitEnum.LEROY;
         case 2: 
-            return Trait.COWARD;
+            return TraitEnum.COWARD;
         case 3: 
-            return Trait.AVGJOE;
+            return TraitEnum.AVGJOE;
         case 4:
-            return Trait.NONE; 
+            return TraitEnum.NONE; 
         default:
-            return Trait.NONE;
+            return TraitEnum.NONE;
     };
 };
 
@@ -88,7 +89,7 @@ const createSpartan = (config: SpartanBaseConfig, rosterId?: number, stats?: Spa
     };
 };
 
+export type { Spartan, SpartanBaseConfig, SpartanHistory, SpartanStats };
 export {
-    Spartan, SpartanBaseConfig, SpartanHistory, SpartanStats, 
     createSpartan, generateStats, generateTraitSelection
 };

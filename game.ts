@@ -5,9 +5,10 @@ import * as Roster from './roster.ts';
 import * as Profile from './profile.ts';
 
 // globals
-const ROSTERS: Roster.Roster[] = [];
+const SPARTANS: Map<number, Spartan.Spartan> = new Map();
+const ROSTERS: Map<number, Roster.Roster> = new Map();
 const FREE_AGENTS = Roster.createRoster("Free Agents", 0);
-ROSTERS.push(FREE_AGENTS);
+ROSTERS.set(0, FREE_AGENTS);
 
 // debug menuing ~~~~
 const rl = readline.createInterface(stdin, stdout);
@@ -15,20 +16,22 @@ const rl = readline.createInterface(stdin, stdout);
 // main menu query and function
 const QUERY = 
     "1. add new spartan to roster\n" +
-    "display roster\n" + 
+    "2. display roster\n" + 
     "3. quit";
-  
+      
 const menu = () => {
     rl.question(QUERY, async (answer) => { 
         if (answer.includes('1')) {
             handleAddSpartan();
             menu();
         } else if (answer.includes('2')) {
-            for (const r of ROSTERS) {
-                for (const s of r.spartans) {
-                    console.log(s.id + ' ' + s.name + ' ' + s.activeDate);
-                }
-            }
+            ROSTERS.forEach((roster, r_id) => {
+                console.log(`Roster #${r_id}-<${roster.name}>`);
+                roster.spartans.forEach((s_id => {
+                    const sprtn = SPARTANS.get(s_id);
+                    console.log(`~~~~ Spartan #${s_id}-<${sprtn?.name}>`);
+                }));
+            });            
             menu();
         } else if (answer.includes('3')) {
             console.log('exiting');
@@ -68,6 +71,8 @@ const handleAddSpartan = () => {
         stats.teamplay = values[5];
         stats.trait = Spartan.generateTraitSelection(values[6]);
     });
+
+    SPARTANS.set
 };
 
 // start game with main menu

@@ -1,10 +1,8 @@
-import * as Spartan from './spartan.ts';
-
 // roster ----------
 interface Roster  {
     id: number
     name: String,
-    spartans: Spartan.Spartan[]    
+    spartans: number[]    
 };
 
 const createRoster = (name: string, id: number): Roster => {
@@ -16,7 +14,9 @@ const createRoster = (name: string, id: number): Roster => {
     return newRoster;
 };
 
-export {
-    Roster, 
-    createRoster
+export type {
+    Roster,
+}
+export { 
+    createRoster,
 }

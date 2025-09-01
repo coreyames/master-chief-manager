@@ -1,3 +1,4 @@
+// profile ---------
 type Profile = {
     name: string,
     rosterIds: number[],
@@ -5,6 +6,6 @@ type Profile = {
     saveDate: Date
 };
 
-export {
-    Profile
+export type {
+    Profile,
 }
