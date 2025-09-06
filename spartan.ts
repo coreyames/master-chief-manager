@@ -23,19 +23,61 @@ interface SpartanStats {
     trait: Trait
 };
 
+const serializeSpartanStats = (stats: SpartanStats): string => {
+	const { aim, awareness, reactions, aggression, power, teamplay, trait } = stats;
+	let statstr = '' + aim + awareness + reactions + aggression + power + teamplay + trait; 
+	return statstr;
+}
+
+const deserializeSpartanStats = (value: string): SpartanStats => {
+	const chars = Array.from(value);
+    return {
+        aim: parseInt(chars[0]),
+        awareness: parseInt(chars[1]),
+        reactions: parseInt(chars[2]),
+        aggression: parseInt(chars[3]),
+        power: parseInt(chars[4]),
+        teamplay: parseInt(chars[5]),
+        trait: generateTraitSelection(parseInt(chars[6])),
+    }
+}
+
 interface SpartanHistory {
-    matches: number,
     rosters: number[],
+    matches: number,
     kills: number,
     deaths: number,
     wins: number,
     losses: number
 };
 
-const generateStatValue = (): number => { return (Math.random() * 10) + 1 };
+const serializeSpartanHistory = (history: SpartanHistory): string => {
+	const { rosters, matches, kills, deaths, wins, losses } = history;
+    const rostersStr = rosters.toString();
+    const valsStr = [ matches, kills, deaths, wins, losses ].toString();
+    const hstr = rostersStr + '-' + valsStr;
+    return hstr;
+}
+
+const deserializeSpartanHistory = (value: string): SpartanHistory => {
+    const split = value.split('-');
+    const rosters = Array.from(split[0]).map(parseInt);
+    const vals = Array.from(split[0]).map(parseInt);
+
+    return {
+        rosters: rosters,
+        matches: vals[0],
+        kills: vals[1],
+        deaths: vals[2],
+        wins: vals[3],
+        losses: vals[4]
+    };
+}
+
+const generateStatValue = (): number => { return Math.round(Math.floor(Math.random() * 10))};
 
 const generateTraitSelection = (selection?: number): Trait => {
-    const _selection = selection ? selection : (Math.random() * 4) + 1;
+    const _selection = selection ? selection : Math.floor((Math.random() * 4));
     switch (_selection) {
         case 1: 
             return TraitEnum.LEROY;
@@ -51,7 +93,7 @@ const generateTraitSelection = (selection?: number): Trait => {
 };
 
 const generateStats = (): SpartanStats => {
-    return {
+    const stats = {
         aim:        generateStatValue(),
         awareness:  generateStatValue(),
         reactions:  generateStatValue(),
@@ -60,6 +102,7 @@ const generateStats = (): SpartanStats => {
         teamplay:   generateStatValue(),
         trait: generateTraitSelection()
     };
+	return stats;
 };
 
 interface Spartan extends SpartanBaseConfig {
@@ -89,7 +132,48 @@ const createSpartan = (config: SpartanBaseConfig, rosterId?: number, stats?: Spa
     };
 };
 
+const serialize = (spartan: Spartan): string => {
+	//sstr = 'S:' + 
+	
+	return 'placeholder';
+}
+
+const deserialize = (value: string): Spartan => {
+
+	return createSpartan({ name: 'placeholder', bio: 'placeholder', id: 333 });
+}
+
+// serialize testing
+/*
+const testStats = generateStats();
+console.log();
+console.log(testStats);
+console.log();
+const s = serializeSpartanStats(testStats);
+console.log(s);
+console.log();
+const d = deserializeSpartanStats(s);
+console.log(d);
+*/
+
+const history = {
+    rosters: [0, 1, 2, 44],
+    matches: 11,
+    kills: 222,
+    deaths: 33,
+    wins: 44,
+    losses: 5,
+};
+
+console.log(history);
+console.log();
+const sh = serializeSpartanHistory(history);
+console.log(sh);
+console.log();
+const dh = deserializeSpartanHistory(sh);
+console.log(dh);
+
 export type { Spartan, SpartanBaseConfig, SpartanHistory, SpartanStats };
 export {
-    createSpartan, generateStats, generateTraitSelection
+    createSpartan, generateStats, generateTraitSelection, serialize, deserialize,
 };
