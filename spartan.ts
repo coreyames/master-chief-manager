@@ -61,8 +61,8 @@ const serializeSpartanHistory = (history: SpartanHistory): string => {
 
 const deserializeSpartanHistory = (value: string): SpartanHistory => {
     const split = value.split('-');
-    const rosters = Array.from(split[0]).map(parseInt);
-    const vals = Array.from(split[0]).map(parseInt);
+    const rosters = split[0].split(',').map(x => parseInt(x));
+    const vals = split[1].split(',').map(x => parseInt(x));
 
     return {
         rosters: rosters,
@@ -154,7 +154,6 @@ console.log(s);
 console.log();
 const d = deserializeSpartanStats(s);
 console.log(d);
-*/
 
 const history = {
     rosters: [0, 1, 2, 44],
@@ -172,6 +171,7 @@ console.log(sh);
 console.log();
 const dh = deserializeSpartanHistory(sh);
 console.log(dh);
+*/
 
 export type { Spartan, SpartanBaseConfig, SpartanHistory, SpartanStats };
 export {
