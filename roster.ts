@@ -19,7 +19,7 @@ const serialize = (roster: Roster): string => {
     let spStr = roster.spartans.toString();
     rStr += '.' + spStr + ';';
     return rStr;
-}
+};
 
 const deserialize = (value: string): Roster => {
     const _value = value.substring(2, value.length - 1);
@@ -28,13 +28,29 @@ const deserialize = (value: string): Roster => {
     const id = parseInt(idStr);
     const name = valueSplit[1];
     const spStr = valueSplit[2];
-    const spIdList: number[] = Array.from(spStr).filter(v => v != ',' ).map(v => parseInt(v) );
+    const spIdList: number[] = Array.from(spStr).filter(v => v != ',' ).map(v => parseInt(v));
     return createRoster(name, id, spIdList);
-}
+};
 
 export type {
     Roster,
-}
+};
 export { 
     createRoster, serialize, deserialize
+};
+
+// tests
+/*
+const FREE_AGENTS: Roster = createRoster("Free Agents", 0);
+FREE_AGENTS.spartans = [0, 1, 2];
+
+const testRosterSerialize = async () => {
+    console.log(FREE_AGENTS);
+    console.log();
+    const serial0 = serialize(FREE_AGENTS);
+    console.log(serial0);
+    console.log(); 
+    const r0 = deserialize(serial0);
+    console.log(r0);
 }
+*/

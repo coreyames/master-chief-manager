@@ -2,9 +2,7 @@ import { stdin, stdout } from 'process';
 import * as Spartan from './spartan.ts';
 import * as Roster from './roster.ts';
 import * as readlinePromise from 'readline/promises';
-import * as Profile from './profile.ts';
-import { start } from 'repl';
-import { deserialize, serialize } from 'v8';
+//import * as Profile from './profile.ts';
 
 // globals
 const ALL_SPARTANS: Map<number, Spartan.Spartan> = new Map();
@@ -66,7 +64,7 @@ const handleAddSpartan = async () => {
     ROSTERS.get(0)?.spartans.push(newSpartan.id);
 };
 
-// game 'loop' with main menu as entry point; recurses
+// game 'loop' function with main menu as entry point; recurses
 const game = async () => {
     let ok = true;
     ok = await menu(); 
@@ -75,74 +73,3 @@ const game = async () => {
 
 // run game
 game();
-
-// TESTS
-
-const testRosterSerialize = async () => {
-    console.log('start');
-    console.log(FREE_AGENTS.id);
-    console.log(FREE_AGENTS.name);
-    console.log(FREE_AGENTS.spartans);
-    console.log();
-
-    console.log('serial0');
-    const serial0 = Roster.serialize(FREE_AGENTS);
-    console.log(serial0);
-    console.log();
-    
-    console.log('deserial0');
-    const r0 = Roster.deserialize(serial0);
-    console.log(r0.id);
-    console.log(r0.name);
-    console.log(r0.spartans);
-    console.log();
-
-    let newSpartan = Spartan.createSpartan({ name: 's0', bio: 'b0', id: 0 }, 0, Spartan.generateStats());
-    ALL_SPARTANS.set(newSpartan.id, newSpartan); 
-    ROSTERS.get(0)?.spartans.push(newSpartan.id);
-    
-    newSpartan = Spartan.createSpartan({ name: 's1', bio: 'b1', id: 1 }, 0, Spartan.generateStats());
-    ALL_SPARTANS.set(newSpartan.id, newSpartan); 
-    ROSTERS.get(0)?.spartans.push(newSpartan.id);
-    
-    newSpartan = Spartan.createSpartan({ name: 's2', bio: 'b2', id: 2 }, 0, Spartan.generateStats());
-    ALL_SPARTANS.set(newSpartan.id, newSpartan); 
-    ROSTERS.get(0)?.spartans.push(newSpartan.id);
-
-    console.log('serial1 added spartans');
-    console.log('spartans field: ' + FREE_AGENTS.spartans);
-    const serial1 = Roster.serialize(FREE_AGENTS);
-    console.log(serial1);
-   
-    console.log('deserialize1');
-    const r1 = Roster.deserialize(serial1);
-    console.log(r1.id);
-    console.log(r1.name);
-    console.log(r1.spartans);
-    console.log();
-
-    rl.close();
-}
-
-const testProfileSerialize = () => {
-    const newProfile = {
-        id: 0,
-        name: 'prof 1',
-        rosterIds: [0, 1, 2], 
-        startDate: new Date('01-01-2025'),
-        saveDate: new Date('02-02-2025')
-    };
-    console.log('profile object');
-    console.log(newProfile);
-    const s = Profile.serialize(newProfile);
-    console.log('serialized');
-    console.log(s);
-    console.log('desererialized');
-    const ds = Profile.deserialize(s);
-    console.log(ds);
-};
-
-// RUN TESTS HERE
-
-//await testRosterSerialize();
-await testProfileSerialize();

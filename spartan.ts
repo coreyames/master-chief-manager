@@ -133,27 +133,44 @@ const createSpartan = (config: SpartanBaseConfig, rosterId?: number, stats?: Spa
 };
 
 const serialize = (spartan: Spartan): string => {
-	//sstr = 'S:' + 
-	
-	return 'placeholder';
+	let spstr = 'S:' + spartan.id + '.' + spartan.name + '.' + spartan.bio + '.' 
+        + spartan.rosterId  +'.';
+
+    spstr += (spartan.activeDate.getMonth()+1) + '-'
+        + (spartan.activeDate.getDate()) + '-'
+        + spartan.activeDate.getFullYear() + '.';
+    
+    spstr += serializeSpartanStats(spartan.stats) + '.';
+    spstr += serializeSpartanHistory(spartan.history) + ';';
+
+	return spstr;
 }
 
+// S:<id>.<name>.<bio>.<rosterId.<activeDate mm-dd-yyyy>.<stats>.<history>;
 const deserialize = (value: string): Spartan => {
+	let split = value.substring(2, value.length - 1).split('.');
+    
+    let ds = {
+        id: parseInt(split[0]),
+        name: split[1],
+        bio: split[2],
+        rosterId: parseInt(split[3]),
+        activeDate: new Date(split[4]),
+        stats: deserializeSpartanStats(split[5]),
+        history: deserializeSpartanHistory(split[6])
+    }
 
-	return createSpartan({ name: 'placeholder', bio: 'placeholder', id: 333 });
+    return ds;
 }
+
+export type { Spartan, SpartanBaseConfig, SpartanHistory, SpartanStats };
+export {
+    createSpartan, generateStats, generateTraitSelection, serialize, deserialize,
+};
 
 // serialize testing
 /*
 const testStats = generateStats();
-console.log();
-console.log(testStats);
-console.log();
-const s = serializeSpartanStats(testStats);
-console.log(s);
-console.log();
-const d = deserializeSpartanStats(s);
-console.log(d);
 
 const history = {
     rosters: [0, 1, 2, 44],
@@ -164,6 +181,25 @@ const history = {
     losses: 5,
 };
 
+const sp = {
+    id: 0, 
+    name: 'testname', 
+    bio: "testbio", 
+    rosterId: 0, 
+    history: history, 
+    stats: testStats, 
+    activeDate: new Date()
+};
+
+console.log();
+console.log(testStats);
+console.log();
+const s = serializeSpartanStats(testStats);
+console.log(s);
+console.log();
+const d = deserializeSpartanStats(s);
+console.log(d);
+
 console.log(history);
 console.log();
 const sh = serializeSpartanHistory(history);
@@ -171,9 +207,11 @@ console.log(sh);
 console.log();
 const dh = deserializeSpartanHistory(sh);
 console.log(dh);
-*/
 
-export type { Spartan, SpartanBaseConfig, SpartanHistory, SpartanStats };
-export {
-    createSpartan, generateStats, generateTraitSelection, serialize, deserialize,
-};
+console.log(sp);
+console.log();
+const serialized = serialize(sp);
+console.log(serialized);
+console.log();
+console.log(deserialize(serialized));
+*/
