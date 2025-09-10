@@ -9,7 +9,7 @@ interface Level {
 const serialize = (lvl: Level): string => {
     let value = 'L:' + lvl.id + '.' + lvl.name + '.' + lvl.size + '.';
     for (const e of lvl.edges) {
-        value += serializeEdge(e) + ',';
+        value += serializeEdge(e) + '+';
     }
     value = value.slice(0, value.length-1);
     value += ';'
@@ -22,7 +22,7 @@ const deserialize = (value: string): Level => {
         id: parseInt(vals[0]), 
         name: vals[1], 
         size: parseInt(vals[2]), 
-        edges: vals[3].split(',').map(e => deserializeEdge(e)) 
+        edges: vals[3].split('+').map(e => deserializeEdge(e)) 
     };
 };
 
@@ -37,7 +37,7 @@ const serializePoint = (p: Point): string => {
 
 const deserializePoint = (value: string): Point => {
     const vals = value.slice(1, value.length-1).split(',');
-    return { x: parseFloat(vals[0]), y: parseFloat(vals[0]) };
+    return { x: parseFloat(vals[0]), y: parseFloat(vals[1]) };
 }
 
 interface Edge {
@@ -46,11 +46,11 @@ interface Edge {
 };
 
 const serializeEdge = (e: Edge): string => {
-    return '[' + serializePoint(e.a) + ',' + serializePoint(e.b) + ']';
+    return '[' + serializePoint(e.a) + '-' + serializePoint(e.b) + ']';
 };
 
 const deserializeEdge = (value: string): Edge => {
-    const vals = value.slice(1, value.length-1).split(',');
+    const vals = value.slice(1, value.length-1).split('-');
     return { a: deserializePoint(vals[0]), b: deserializePoint(vals[1]) };    
 };
 
@@ -61,6 +61,8 @@ export {
     serialize, deserialize
 }
 
+// serialize testing
+/*
 const p1: Point = { x: 1, y: 2};
 const p2: Point = { x: 3, y: 4};
 const p3: Point = { x: 5, y: 6};
@@ -81,9 +83,5 @@ console.log(s);
 console.log();
 const ds = deserialize(s);
 console.log(ds);
-
-/*
-const testLevelSerialize = () => {
-
-}
+console.log(ds.edges[0]);
 */
