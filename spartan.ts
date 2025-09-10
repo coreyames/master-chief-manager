@@ -27,7 +27,7 @@ const serializeSpartanStats = (stats: SpartanStats): string => {
 	const { aim, awareness, reactions, aggression, power, teamplay, trait } = stats;
 	let statstr = '' + aim + awareness + reactions + aggression + power + teamplay + trait; 
 	return statstr;
-}
+};
 
 const deserializeSpartanStats = (value: string): SpartanStats => {
 	const chars = Array.from(value);
@@ -39,8 +39,8 @@ const deserializeSpartanStats = (value: string): SpartanStats => {
         power: parseInt(chars[4]),
         teamplay: parseInt(chars[5]),
         trait: generateTraitSelection(parseInt(chars[6])),
-    }
-}
+    };
+};
 
 interface SpartanHistory {
     rosters: number[],
@@ -57,7 +57,7 @@ const serializeSpartanHistory = (history: SpartanHistory): string => {
     const valsStr = [ matches, kills, deaths, wins, losses ].toString();
     const hstr = rostersStr + '-' + valsStr;
     return hstr;
-}
+};
 
 const deserializeSpartanHistory = (value: string): SpartanHistory => {
     const split = value.split('-');
@@ -72,7 +72,7 @@ const deserializeSpartanHistory = (value: string): SpartanHistory => {
         wins: vals[3],
         losses: vals[4]
     };
-}
+};
 
 const generateStatValue = (): number => { return Math.round(Math.floor(Math.random() * 10))};
 
@@ -161,7 +161,7 @@ const deserialize = (value: string): Spartan => {
     }
 
     return ds;
-}
+};
 
 export type { Spartan, SpartanBaseConfig, SpartanHistory, SpartanStats };
 export {
