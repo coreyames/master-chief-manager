@@ -144,7 +144,7 @@ const serialize = (spartan: Spartan): string => {
     spstr += serializeSpartanHistory(spartan.history) + ';';
 
 	return spstr;
-}
+};
 
 // S:<id>.<name>.<bio>.<rosterId.<activeDate mm-dd-yyyy>.<stats>.<history>;
 const deserialize = (value: string): Spartan => {

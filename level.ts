@@ -1,3 +1,4 @@
+// level ------------
 interface Level {
     id: number,
     name: string,
@@ -6,44 +7,80 @@ interface Level {
 };
 
 const serialize = (lvl: Level): string => {
-    return "";
+    let value = 'L:' + lvl.id + '.' + lvl.name + '.' + lvl.size + '.';
+    for (const e of lvl.edges) {
+        value += serializeEdge(e) + ',';
+    }
+    value = value.slice(0, value.length-1);
+    value += ';'
+    return value;
 };
 
 const deserialize = (value: string): Level => {
-    return { id: 0, name: "", size: 1, edges: [] };
+    let vals = value.slice(2, value.length-1).split('.');     
+    return { 
+        id: parseInt(vals[0]), 
+        name: vals[1], 
+        size: parseInt(vals[2]), 
+        edges: vals[3].split(',').map(e => deserializeEdge(e)) 
+    };
 };
 
 interface Point {
-    id: number,
     x: number,
     y: number
 };
 
 const serializePoint = (p: Point): string => {
-    return "";
+    return "(" + p.x + ',' + p.y + ")";
 };
 
 const deserializePoint = (value: string): Point => {
-    return { id: 0, x: 0, y: 0 };
+    const vals = value.slice(1, value.length-1).split(',');
+    return { x: parseFloat(vals[0]), y: parseFloat(vals[0]) };
 }
 
 interface Edge {
-    id: number,
     a: Point,
     b: Point
 };
 
 const serializeEdge = (e: Edge): string => {
-    return "";
+    return '[' + serializePoint(e.a) + ',' + serializePoint(e.b) + ']';
 };
 
 const deserializeEdge = (value: string): Edge => {
-    return { id: 0, a: { id: 0, x: 0, y: 0 }, b: { id: 0, x: 0, y: 0 } };    
+    const vals = value.slice(1, value.length-1).split(',');
+    return { a: deserializePoint(vals[0]), b: deserializePoint(vals[1]) };    
 };
 
 export type {
     Level, Edge, Point
 };
+export {
+    serialize, deserialize
+}
+
+const p1: Point = { x: 1, y: 2};
+const p2: Point = { x: 3, y: 4};
+const p3: Point = { x: 5, y: 6};
+const p4: Point = { x: 7, y: 8};
+const e1: Edge = { a: p1, b: p2 };
+const e2: Edge = { a: p3, b: p4 };
+const lvl: Level = {
+    id: 0,
+    name: 'test',
+    size: 1,
+    edges: [e1, e2]
+};
+
+console.log(lvl);
+const s = serialize(lvl);
+console.log();
+console.log(s);
+console.log();
+const ds = deserialize(s);
+console.log(ds);
 
 /*
 const testLevelSerialize = () => {
