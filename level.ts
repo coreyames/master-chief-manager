@@ -29,7 +29,11 @@ const deserialize = (value: string): Level => {
 interface Point {
     x: number,
     y: number
-};
+}; 
+
+const nanPoint = (): Point => {
+    return { x: NaN, y: NaN };
+}
 
 const serializePoint = (p: Point): string => {
     return "(" + p.x + ',' + p.y + ")";
@@ -38,7 +42,7 @@ const serializePoint = (p: Point): string => {
 const deserializePoint = (value: string): Point => {
     const vals = value.slice(1, value.length-1).split(',');
     return { x: parseFloat(vals[0]), y: parseFloat(vals[1]) };
-}
+};
 
 interface Edge {
     a: Point,
@@ -58,8 +62,8 @@ export type {
     Level, Edge, Point
 };
 export {
-    serialize, deserialize
-}
+    serialize, deserialize, nanPoint
+};
 
 // serialize testing
 /*
