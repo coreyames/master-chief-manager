@@ -1,5 +1,6 @@
 import { nanPoint } from './level.ts';
 import type { Edge, Point, Level } from './level.ts';
+import { runMatch } from './match.ts';
 import type { Match } from './match.ts';
 import type { Spartan } from './spartan.ts';
 import { createSpartan, generateStats } from './spartan.ts';
@@ -11,7 +12,7 @@ const PI_OVER_180: number = 0.017453;
     PolyK library
 	url: http://polyk.ivank.net
 */
-const rayIntersectEdge = async (origin: Point, direction: Point, edge: Edge, distance?: number): Promise<Point> => {
+const rayIntersectEdge = (origin: Point, direction: Point, edge: Edge, distance?: number): Point => {
     const p: Point = nanPoint();
     
     const d_ray_x:  number = (origin.x - direction.x);
@@ -33,6 +34,8 @@ const rayIntersectEdge = async (origin: Point, direction: Point, edge: Edge, dis
     if ((d_ray_x > 0 && p.x > origin.x) || (d_ray_x < 0 && p.x < origin.x)) return nanPoint();
     return p;
 };
+
+export { rayIntersectEdge };
 
 // 10x10 level with a 2 unit horizontal edge in the middle (x: 4-> 6, y: 5)
 
@@ -74,10 +77,11 @@ const testPlayers: Spartan[] = [
 const testMatch: Match = {
     id: 0,
     level: testLevel,
-    players: [],
+    players: testPlayers,
     log: "",
 };
 
+runMatch(testMatch);
 
 
 // test intersect edge
