@@ -58,6 +58,8 @@ const deserializeEdge = (value: string): Edge => {
     return { a: deserializePoint(vals[0]), b: deserializePoint(vals[1]) };    
 };
 
+// TODO validate edges in a level
+
 export type {
     Level, Edge, Point
 };

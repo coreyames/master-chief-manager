@@ -1,5 +1,8 @@
-import { nanPoint } from './level.ts'
-import type { Edge, Point } from './level.ts'
+import { nanPoint } from './level.ts';
+import type { Edge, Point, Level } from './level.ts';
+import type { Match } from './match.ts';
+import type { Spartan } from './spartan.ts';
+import { createSpartan, generateStats } from './spartan.ts';
 
 const PI_OVER_180: number = 0.017453;
 
@@ -9,19 +12,20 @@ const PI_OVER_180: number = 0.017453;
 	url: http://polyk.ivank.net
 */
 const rayIntersectEdge = async (origin: Point, direction: Point, edge: Edge, distance?: number): Promise<Point> => {
-    var p: Point = nanPoint();
+    const p: Point = nanPoint();
     
-    var d_ray_x:  number = (origin.x - direction.x);
-    var d_edge_x: number = (edge.a.x - edge.b.x);
-    var d_ray_y:  number = (origin.y - direction.y);
-	var d_edge_y: number = (edge.a.y - edge.b.y);
-    var d_products: number = (d_ray_x * d_edge_y) - (d_ray_y * d_edge_x);
+    const d_ray_x:  number = (origin.x - direction.x);
+    const d_edge_x: number = (edge.a.x - edge.b.x);
+    const d_ray_y:  number = (origin.y - direction.y);
+	const d_edge_y: number = (edge.a.y - edge.b.y);
+    
+    const d_products: number = (d_ray_x * d_edge_y) - (d_ray_y * d_edge_x);
     if (d_products == 0) return p;
     
-    var d_ray_products  = (origin.x * direction.y) - (origin.y * direction.x);
-    var d_edge_products = (edge.a.x * edge.b.y) - (edge.a.y * edge.b.x);
+    const d_ray_products  = (origin.x * direction.y) - (origin.y * direction.x);
+    const d_edge_products = (edge.a.x * edge.b.y) - (edge.a.y * edge.b.x);
 
-    var inv_d_products = 1.0/d_products;
+    const inv_d_products = 1.0/d_products;
     p.x = ((d_ray_products * d_edge_x) - (d_ray_x * d_edge_products )) * inv_d_products;   
     p.y = ((d_ray_products * d_edge_y) - (d_ray_y * d_edge_products )) * inv_d_products;
 
@@ -29,6 +33,52 @@ const rayIntersectEdge = async (origin: Point, direction: Point, edge: Edge, dis
     if ((d_ray_x > 0 && p.x > origin.x) || (d_ray_x < 0 && p.x < origin.x)) return nanPoint();
     return p;
 };
+
+// 10x10 level with a 2 unit horizontal edge in the middle (x: 4-> 6, y: 5)
+
+
+const testEdges: Edge[] = [
+    {a: {x: 4, y: 5}, b: {x: 6, y: 5}}
+];
+
+const testLevel: Level = {
+    id: 0,
+    name: "test",
+    size: 10, 
+    edges: testEdges
+};
+
+const testStats = generateStats();
+
+const history = {
+    rosters: [0, 1, 2, 44],
+    matches: 11,
+    kills: 222,
+    deaths: 33,
+    wins: 44,
+    losses: 5,
+};
+
+const testPlayers: Spartan[] = [
+    {
+        id: 0, 
+        name: 'testname', 
+        bio: "testbio", 
+        rosterId: 0, 
+        history: history, 
+        stats: testStats, 
+        activeDate: new Date()
+    }
+];
+
+const testMatch: Match = {
+    id: 0,
+    level: testLevel,
+    players: [],
+    log: "",
+};
+
+
 
 // test intersect edge
 /*
