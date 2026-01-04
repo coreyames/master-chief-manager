@@ -78,11 +78,11 @@ const testMatch: Match = {
     id: 0,
     level: testLevel,
     players: testPlayers,
+    positions: new Map(), 
     log: "",
 };
 
 runMatch(testMatch);
-
 
 // test intersect edge
 /*

@@ -29,7 +29,11 @@ const deserialize = (value: string): Level => {
 interface Point {
     x: number,
     y: number
-}; 
+};
+
+const isNaNpoint = (p: Point): boolean => {
+    return (isNaN(p.x) && isNaN(p.y)) ;
+}
 
 const nanPoint = (): Point => {
     return { x: NaN, y: NaN };
@@ -64,7 +68,7 @@ export type {
     Level, Edge, Point
 };
 export {
-    serialize, deserialize, nanPoint
+    serialize, deserialize, nanPoint, isNaNpoint
 };
 
 // serialize testing
