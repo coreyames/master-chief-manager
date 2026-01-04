@@ -4,6 +4,8 @@ import type { Spartan } from './spartan.ts';
 import { createSpartan } from './spartan.ts';
 import { rayIntersectEdge } from './play.ts';
 
+const zero = { x: 0, y: 0 };
+
 interface Match {
     players: Spartan[],
     level: Level,
@@ -49,7 +51,6 @@ const navPlayer = (match: Match, id: number, point?: Point): Point => {
     return nanPoint();
 }
 
-var zero = { x: 0, y: 0 };
 
 const runMatch = (match: Match) => {
     const { players, level, positions } = match;

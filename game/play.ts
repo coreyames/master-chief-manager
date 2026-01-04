@@ -39,7 +39,6 @@ export { rayIntersectEdge };
 
 // 10x10 level with a 2 unit horizontal edge in the middle (x: 4-> 6, y: 5)
 
-
 const testEdges: Edge[] = [
     {a: {x: 4, y: 5}, b: {x: 6, y: 5}}
 ];
