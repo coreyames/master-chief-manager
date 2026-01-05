@@ -1,0 +1,14 @@
+#level {
+    height: 600px;
+    width: 600px;
+    min-height: 50px;
+    background-color: beige;    
+}
+
+#player {
+    height: 50px;
+    min-height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: black;
+}
