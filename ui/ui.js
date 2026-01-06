@@ -4,14 +4,18 @@ playerDiv.innerHTML = playerDivStr;
 
 const player = {};
 player.x, player.y = 0, 0;
+player.parentElement = null;
 
 document.onreadystatechange = () => {
     if (document.readyState == 'interactive') {
         movePlayer(0, 0);
-        const onClick = (e) => {
-            movePlayer(5, 5);
+        const clickToMove = (e) => {
+            console.log(e);
+            if (e.target.tagName == 'BODY') return;
+            e.target.insertBefore(playerDiv, e.target.firstChild);
+            player.parentElement = e.target;             
         };
-        addEventListener("click", onClick); 
+        addEventListener("click", clickToMove); 
     }
 };
 
@@ -22,3 +26,7 @@ const movePlayer = (x, y) => {
     if (prev.parentElement) prev.parentElement.removeChild(prev);
     player.x = x; player.y = y;      
 };
+
+const removePlayer = () => {
+   playerDiv.parentElement.removeChild(playerDiv);
+}
