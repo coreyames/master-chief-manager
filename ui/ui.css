@@ -1,6 +1,5 @@
 body {
   padding: 40px;
-  position:fixed;
   font-family: Helvetica;
   background-color: blanchedalmond;
 }
@@ -32,4 +31,6 @@ body {
     width: 50px;
     border-radius: 50%;
     background-color: rgb(237, 236, 236);
+    position: fixed;
+    z-index: 1;
 }

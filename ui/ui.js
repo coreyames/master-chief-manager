@@ -4,14 +4,11 @@ playerDiv.innerHTML = playerDivStr;
 
 document.onreadystatechange = () => {
     if (document.readyState == 'interactive') {
-        //console.log(document.getElementsByClassName("row0").item(0).childNodes.item(0));
-        console.log(document.getElementsByClassName("row0").item(0).childNodes[1].appendChild(playerDiv));
-        //console.log(output);
-        
-        //document.getElementsByClassName("row0").item(0);
-
-
-
+        const e = document.getElementsByClassName('row0').item(0).firstElementChild
+        e.insertBefore(playerDiv, e.firstChild); 
     }
 }
+
+// dn = document.createElement(playerDivStr);
+
 
