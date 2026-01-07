@@ -20,10 +20,8 @@ document.onreadystatechange = () => {
 };
 
 const movePlayer = (x, y) => {
-    const prev = document.getElementsByClassName('player');
     const el = document.getElementsByClassName('col').item(x).getElementsByClassName('row').item(9-y);
     el.insertBefore(playerDiv, el.firstChild);
-    if (prev.parentElement) prev.parentElement.removeChild(prev);
     player.x = x; player.y = y;      
 };
 

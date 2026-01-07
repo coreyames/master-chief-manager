@@ -32,13 +32,13 @@ const serializeSpartanStats = (stats: SpartanStats): string => {
 const deserializeSpartanStats = (value: string): SpartanStats => {
 	const chars = Array.from(value);
     return {
-        aim: parseInt(chars[0]),
-        awareness: parseInt(chars[1]),
-        reactions: parseInt(chars[2]),
+        aim:        parseInt(chars[0]),
+        awareness:  parseInt(chars[1]),
+        reactions:  parseInt(chars[2]),
         aggression: parseInt(chars[3]),
-        power: parseInt(chars[4]),
-        teamplay: parseInt(chars[5]),
-        trait: generateTraitSelection(parseInt(chars[6])),
+        power:      parseInt(chars[4]),
+        teamplay:   parseInt(chars[5]),
+        trait:      generateTraitSelection(parseInt(chars[6])),
     };
 };
 
