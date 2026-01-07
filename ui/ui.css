@@ -13,10 +13,10 @@ body {
   background-color: #20262e;
   color: #fff;
   font-size: 14px;
-  height: 50px;
+  height: 58px;
   max-width: 60px;
   border: solid #47b2a7;
-  border-width: 5px 5px 5px 5px;
+  border-width: 1px 1px 1px 1px;
 }
 
 .wrapper-columns {
@@ -27,10 +27,10 @@ body {
 }
 
 .player {
-    min-height: 50px;
-    width: 50px;
+    min-height: 12px;
+    max-width: 12px;
     border-radius: 50%;
-    background-color: rgb(237, 236, 236);
-    position: fixed;
+    background-color: rgb(229, 127, 227);
+    position: relative;
     z-index: 1;
 }
