@@ -35,10 +35,6 @@ const movePlayerToOffset = (e) => {
     playerDiv.style.top = e.offsetY;
 }
 
-const movePlayer = (e) => {
-
-}
-
 const removePlayer = () => {
     playerDiv.parentElement.removeChild(playerDiv);
 }
