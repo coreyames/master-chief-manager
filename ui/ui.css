@@ -24,11 +24,13 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(60px, 60px));
   max-width: 600px;
   max-height: 600px;
+  margin: 6;
 }
 
 .player {
     min-height: 12px;
     max-width: 12px;
+    min-width: 12px;
     border-radius: 50%;
     background-color: rgb(229, 127, 227);
     position: relative;
