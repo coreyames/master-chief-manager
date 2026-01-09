@@ -64,6 +64,7 @@ const movePlayerToOffset = (e) => {
 
 const movePlayer = (x_, y_) => {
     if (player.x == x_ && player.y == y_) return;
+    if ((x_ < 0 || x_ > 99) || (y_ < 0 || y_ > 99)) return;
     player.x = x_;
     player.y = y_;
     const col = parseInt(x_ / 10); 
@@ -83,7 +84,6 @@ const removePlayer = () => {
 const gameTick = () => {
     const x = player.x + player.direction.x;
     const y = player.y + player.direction.y;
-    player.yn = player.yn - player.direction.y;
     movePlayer(x,y);
 };
 
