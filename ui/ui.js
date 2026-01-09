@@ -62,15 +62,16 @@ const movePlayerToOffset = (e) => {
     player.offsetYpx = e.offsetYpx;
 };
 
-const movePlayer = (x_, y_) => {
-    if (player.x == x_ && player.y == y_) return;
-    if ((x_ < 0 || x_ > 99) || (y_ < 0 || y_ > 99)) return;
-    player.x = x_;
-    player.y = y_;
-    const col = parseInt(x_ / 10); 
-    const row = 9-parseInt(y_ / 10);
-    const offsetX = x_ % 10; 
-    const offsetY = y_ % 10;
+const movePlayer = (x, y) => {
+    // skip if no change or if trying to go out of bounds
+    if (player.x == x && player.y == y) return;
+    if ((x < 0 || x > 99) || (y < 0 || y > 99)) return;
+    player.x = x;
+    player.y = y;
+    const col = parseInt(x / 10); 
+    const row = 9-parseInt(y / 10);
+    const offsetX = x % 10; 
+    const offsetY = y % 10;
     const adjusted_offsetX = (pxRatio * offsetX) - centeringOffsetX; 
     const adjusted_offsetY = -(pxRatio * offsetY) - centeringOffsetY + 60; 
     movePlayerToCell(col, row);
