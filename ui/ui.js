@@ -1,6 +1,5 @@
 const playerDiv = document.createElement('div')
 playerDiv.className = 'player';
-playerDiv.style.position = 'fixed'
 
 const pxRatio = 6;
 
@@ -8,11 +7,11 @@ const centeringOffsetX = 6;
 const centeringOffsetY = 7;
 
 const player = {
-    direction: { x: 0, y: 0}, // x,y = -1 | 0 | 1
+    direction: { x: 0, y: 0 }, // x,y = -1 | 0 | 1 (with respect to positive abstract coords)
 
-    x:       0, y:       0,   // abstract coords 0-99, 0,99
-    row:     0, col:     0,   // index of row in grid (this grows top down)
-    offsetX: 0, offsetY: 0    // caluculated pixel offset grid cell
+    x:      -1, y:      -1,     // abstract coords ([0,99], [0,99]), start negative for init 
+    row:     0, col:     0,     // child index of row in grid (this grows top down)
+    offsetXpx: 0, offsetYpx: 0  // caluculated pixel offset for within a grid cell
 };
 
 document.onreadystatechange = () => {
@@ -30,7 +29,7 @@ const onKeyDown = (e) => {
     } else if (e.key == 'ArrowRight') {
         player.direction.x = 1;
     } else if (e.key == 'ArrowLeft') {
-        player.direction.y = -1;
+        player.direction.x = -1;
     }
 };
 
@@ -42,42 +41,50 @@ const onKeyUp = (e) => {
     } else if (e.key == 'ArrowRight') {
         player.direction.x = 0;
     } else if (e.key == 'ArrowLeft') {
-        player.direction.y = 0;
+        player.direction.x = 0;
     }
-}
+};
 
 addEventListener("keydown", onKeyDown); 
 addEventListener("keyup", onKeyUp); 
 
-const movePlayerToCell = (x, y) => {
-    const el = document.getElementsByClassName('col').item(x).getElementsByClassName('row').item(9-y);
+const movePlayerToCell = (col, row) => {
+    const el = document.getElementsByClassName('col').item(col).getElementsByClassName('row').item(row);
     el.appendChild(playerDiv);
-    player.row = 9-y; 
-    player.col = x;
+    player.row = row; 
+    player.col = col;
 };
 
 const movePlayerToOffset = (e) => {   
-    playerDiv.style.left = e.offsetX;
-    playerDiv.style.top  = e.offsetY;
-    player.offsetX = e.offsetX;
-    player.offsetY = e.offsetY;
+    playerDiv.style.left = e.offsetXpx;
+    playerDiv.style.top  = e.offsetYpx;
+    player.offsetXpx = e.offsetXpx;
+    player.offsetYpx = e.offsetYpx;
 };
 
 const movePlayer = (x_, y_) => {
-    playerDiv.style.position = 'relative';
+    if (player.x == x_ && player.y == y_) return;
     player.x = x_;
     player.y = y_;
-    const x = parseInt(x_ / 10); 
-    const y = parseInt(y_ / 10);
+    const col = parseInt(x_ / 10); 
+    const row = 9-parseInt(y_ / 10);
     const offsetX = x_ % 10; 
     const offsetY = y_ % 10;
     const adjusted_offsetX = (pxRatio * offsetX) - centeringOffsetX; 
-    const adjusted_offsetY = (pxRatio * offsetY) - centeringOffsetY + 60; 
-    movePlayerToCell(x, y);
-    movePlayerToOffset({offsetX: adjusted_offsetX , offsetY: adjusted_offsetY});
+    const adjusted_offsetY = -(pxRatio * offsetY) - centeringOffsetY + 60; 
+    movePlayerToCell(col, row);
+    movePlayerToOffset({offsetXpx: adjusted_offsetX , offsetYpx: adjusted_offsetY});
 };
 
 const removePlayer = () => {
     playerDiv.parentElement.removeChild(playerDiv);
 };
 
+const gameTick = () => {
+    const x = player.x + player.direction.x;
+    const y = player.y + player.direction.y;
+    player.yn = player.yn - player.direction.y;
+    movePlayer(x,y);
+};
+
+setInterval(gameTick, 100);
