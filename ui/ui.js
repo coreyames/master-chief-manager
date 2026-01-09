@@ -22,7 +22,6 @@ document.onreadystatechange = () => {
     }
 };
 
-
 const onKeyDown = (e) => {
     if (e.key == 'ArrowUp') {
         player.direction.y = 1;
