@@ -1,0 +1,42 @@
+body {
+  padding: 40px;
+  font-family: Helvetica;
+  background-color: blanchedalmond;
+}
+
+.wrapper-row {
+  display: grid; 
+  grid-template-rows: repeat(auto-fit, minmax(60px, 60px));
+}
+
+.row {
+  background-color: #20262e;
+  color: #fff;
+  font-size: 14px;
+  height: 58px;
+  max-width: 60px;
+  border: solid #47b2a7;
+  border-width: 1px 1px 1px 1px;
+}
+
+.wrapper-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 60px));
+  max-width: 600px;
+  max-height: 600px;
+  margin: 6;
+}
+
+.player {
+    min-height: 12px;
+    max-width: 12px;
+    min-width: 12px;
+    border-radius: 50%;
+    background-color: rgb(229, 127, 227);
+    position: relative;
+    z-index: 1;
+}
+
+.index {
+  position: absolute;
+}

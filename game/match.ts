@@ -8,11 +8,11 @@ const zero = { x: 0, y: 0 };
 
 interface Match {
     players: Spartan[],
-    level: Level,
+    level: Level | null,
     positions: Map<number, Point>
     id: number,
     log: String
-}
+};
 
 const cardinal: Map<String, Point> = new Map([
     ["N", {x:0,y:1}],
@@ -25,7 +25,7 @@ const spawnPlayer = (id: number, point?: Point): Point => {
     const x = Math.random() * 10;
     const y = Math.random() * 10;
     return {x, y}
-}
+};
 
 const navPlayer = (match: Match, id: number, point?: Point): Point => {
     const TEMP_STEP: number = 3;    
@@ -49,7 +49,7 @@ const navPlayer = (match: Match, id: number, point?: Point): Point => {
         return { x: pos.x + TEMP_STEP*direction.x, y: pos.y + TEMP_STEP*direction.y }           
     }
     return nanPoint();
-}
+};
 
 
 const runMatch = (match: Match) => {
@@ -75,6 +75,7 @@ const runMatch = (match: Match) => {
             if (!isNaNpoint(pos)) {
                 positions.set(pl.id, pos);
             }
+            if (level == null) { continue; }
             for (const edge of level.edges) {
                 const isc = rayIntersectEdge(pos, target, edge);
                 console.log("raycast");
@@ -86,8 +87,8 @@ const runMatch = (match: Match) => {
 
 export {
     runMatch
-}
+};
 
 export type {
     Match
-}
+};
