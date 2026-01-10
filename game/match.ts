@@ -1,8 +1,8 @@
-import { nanPoint, isNaNpoint } from './level.ts';
+import { nanPoint, isNaNpoint } from './level.js';
 import type { Edge, Level, Point } from './level.ts';
-import type { Spartan } from './spartan.ts';
-import { createSpartan } from './spartan.ts';
-import { rayIntersectEdge } from './play.ts';
+import type { Spartan } from './spartan.js';
+import { createSpartan } from './spartan.js';
+import { rayIntersectEdge } from './play.js';
 
 const zero = { x: 0, y: 0 };
 

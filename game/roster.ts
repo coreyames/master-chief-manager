@@ -25,9 +25,11 @@ const deserialize = (value: string): Roster => {
     const _value = value.substring(2, value.length - 1);
     const valueSplit = _value.split('.');
     const idStr = valueSplit[0];
-    const id = parseInt(idStr);
-    const name = valueSplit[1];
-    const spStr = valueSplit[2];
+    const id = idStr ? parseInt(idStr) : -1;
+    var name = valueSplit[1];
+    if (!name) name = '';
+    var spStr = valueSplit[2];
+    if (!spStr) spStr = '';
     const spIdList: number[] = Array.from(spStr).filter(v => v != ',' ).map(v => parseInt(v));
     return createRoster(name, id, spIdList);
 };

@@ -1,9 +1,9 @@
-import { nanPoint } from './level.ts';
+import { nanPoint } from './level.js';
 import type { Edge, Point, Level } from './level.ts';
-import { runMatch } from './match.ts';
+import { runMatch } from './match.js';
 import type { Match } from './match.ts';
 import type { Spartan } from './spartan.ts';
-import { createSpartan, generateStats } from './spartan.ts';
+import { createSpartan, generateStats } from './spartan.js';
 
 const PI_OVER_180: number = 0.017453;
 

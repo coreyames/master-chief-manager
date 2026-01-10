@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import type { Match } from './game/match.ts';
-//import type { Point } from './game/level';   
+import type { Match } from './game/match.js';
+
 const app = express();
 
 const testMatch: Match = {
@@ -15,18 +15,13 @@ const testMatch: Match = {
 };
 
 app.use(express.static('public'));
-app.use(cors);
-
-// get the match info to play
+//app.use(cors);
 app.get('/match', (req, res) => {
     res.json(testMatch);
 });
+// get the match info to play
 
 /*
-app.get('/', (req, res) => {
-    res.send("")
-});
-
 app.get('/', (req, res) => {
     res.send("")
 });

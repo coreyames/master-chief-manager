@@ -17,7 +17,8 @@ const player = {
 document.onreadystatechange = () => {
     if (document.readyState == 'interactive') {
         document.body.appendChild(playerDiv); 
-        movePlayer(0,0);          
+        movePlayer(0,0);
+        //getMatch();          
     }
 };
 
@@ -88,11 +89,13 @@ const gameTick = () => {
     movePlayer(x,y);
 };
 
-const getMatch = () => {
-   fetch('http://localhost:3030').then((req, res) => {
-    console.log(req);
-   });
-
-}
+const getMatch = async () => {
+    const res = await fetch('http://localhost:3030/match');
+    if (!res.ok) {
+        throw new Error(`Response Status: ${res.status}`)
+    }   
+    const match = await res.json();
+    console.log(match);
+};
 
 setInterval(gameTick, 100);
