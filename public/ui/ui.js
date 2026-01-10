@@ -88,4 +88,8 @@ const gameTick = () => {
     movePlayer(x,y);
 };
 
+const getMatch = () => {
+    
+}
+
 setInterval(gameTick, 100);
