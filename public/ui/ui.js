@@ -89,7 +89,10 @@ const gameTick = () => {
 };
 
 const getMatch = () => {
-    
+   fetch('http://localhost:3030').then((req, res) => {
+    console.log(req);
+   });
+
 }
 
 setInterval(gameTick, 100);

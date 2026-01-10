@@ -40,3 +40,7 @@ body {
 .index {
   position: absolute;
 }
+
+.outer {
+  display: inline-flex;
+}
