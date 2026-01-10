@@ -31,15 +31,18 @@ const serializeSpartanStats = (stats: SpartanStats): string => {
 
 const deserializeSpartanStats = (value: string): SpartanStats => {
 	const chars = Array.from(value);
-    return {
-        aim:        parseInt(chars[0]),
-        awareness:  parseInt(chars[1]),
-        reactions:  parseInt(chars[2]),
-        aggression: parseInt(chars[3]),
-        power:      parseInt(chars[4]),
-        teamplay:   parseInt(chars[5]),
-        trait:      generateTraitSelection(parseInt(chars[6])),
+    
+        return {
+            aim:        chars[0] ? parseInt(chars[0]) : 0,
+            awareness:  chars[0] ? parseInt(chars[0]) : 0,
+            reactions:  chars[0] ? parseInt(chars[0]) : 0,
+            aggression: chars[0] ? parseInt(chars[0]) : 0,
+            power:      chars[0] ? parseInt(chars[0]) : 0,
+            teamplay:   chars[0] ? parseInt(chars[0]) : 0,
+            trait:      chars[6] ? generateTraitSelection(parseInt(chars[6])) : TraitEnum.NONE,
     };
+
+    
 };
 
 interface SpartanHistory {
@@ -51,6 +54,17 @@ interface SpartanHistory {
     losses: number
 };
 
+const blankSpartanHistory = () => {
+    return {
+        matches: 0,
+        rosters: [],
+        kills: 0,
+        deaths: 0,
+        wins: 0,
+        losses: 0
+    };
+}
+
 const serializeSpartanHistory = (history: SpartanHistory): string => {
 	const { rosters, matches, kills, deaths, wins, losses } = history;
     const rostersStr = rosters.toString();
@@ -61,8 +75,8 @@ const serializeSpartanHistory = (history: SpartanHistory): string => {
 
 const deserializeSpartanHistory = (value: string): SpartanHistory => {
     const split = value.split('-');
-    const rosters = split[0].split(',').map(x => parseInt(x));
-    const vals = split[1].split(',').map(x => parseInt(x));
+    const rosters = split[0] ? split[0].split(',').map(x => parseInt(x)) : [0];
+    const vals = split[1] ? split[1].split(',').map(x => parseInt(x));
 
     return {
         rosters: rosters,
@@ -121,14 +135,7 @@ const createSpartan = (config: SpartanBaseConfig, rosterId?: number, stats?: Spa
         id: config.id, 
         rosterId: rosterId ? rosterId : 0,
         stats: stats ? stats : generateStats(),
-        history: {
-            matches: 0,
-            rosters: [],
-            kills: 0,
-            deaths: 0,
-            wins: 0,
-            losses: 0
-        }
+        history: blankSpartanHistory()
     };
 };
 
@@ -151,13 +158,13 @@ const deserialize = (value: string): Spartan => {
 	let split = value.substring(2, value.length - 1).split('.');
     
     let ds = {
-        id: parseInt(split[0]),
-        name: split[1],
-        bio: split[2],
-        rosterId: parseInt(split[3]),
-        activeDate: new Date(split[4]),
-        stats: deserializeSpartanStats(split[5]),
-        history: deserializeSpartanHistory(split[6])
+        id: split[0] ? parseInt(split[0]) : -1,
+        name: split[1] ? split[1] : '',
+        bio: split[2] ? split[2] : '',
+        rosterId: split[3] ? parseInt(split[3]) : -1,
+        activeDate: split[4] ? new Date(split[4]) : new Date(),
+        stats: split[5] ? deserializeSpartanStats(split[5]) : generateStats(),
+        history: split[6] ? deserializeSpartanHistory(split[6]) : blankSpartanHistory()
     }
 
     return ds;

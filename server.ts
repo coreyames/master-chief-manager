@@ -1,5 +1,5 @@
 import express from 'express';
-import type { Match } from './game/match';
+import type { Match } from './game/match.ts';
 //import type { Point } from './game/level';   
 const app = express();
 
