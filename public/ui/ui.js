@@ -18,7 +18,7 @@ document.onreadystatechange = () => {
     if (document.readyState == 'interactive') {
         document.body.appendChild(playerDiv); 
         movePlayer(0,0);
-        //getMatch();          
+        getMatch();          
     }
 };
 
@@ -95,9 +95,9 @@ const getMatch = async () => {
         throw new Error(`Response Status: ${res.status}`)
     }   
     const match = await res.json();
-    const idDiv = document.getElementsByClassName('info match-id').item(0);
-    const playersDiv = document.getElementsByClassName('info players').item(0);
-    const logDiv = document.getElementsByClassName('info log').item(0);
+    const idDiv = document.getElementsByClassName('match-id').item(0);
+    const playersDiv = document.getElementsByClassName('players').item(0);
+    const logDiv = document.getElementsByClassName('log').item(0);
     idDiv.textContent = idDiv.textContent + match.id;
     playersDiv.textContent = playersDiv.textContent + match.players[0].id;
     logDiv.textContent = match.log;
