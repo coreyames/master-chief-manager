@@ -27,11 +27,11 @@ const serialize = (profile: Profile): string => {
 const deserialize = (value: string): Profile => {
     let values = value.substring(2, value.length - 1).split('.');
     return ({
-        id: parseInt(values[0]),
-        name: values[1],
-        rosterIds: Array.from(values[2]).filter(v => v != ',').map(v => parseInt(v)),
-        startDate: new Date(values[3]),
-        saveDate: new Date(values[4])
+        id: values[0] ? parseInt(values[0]) : -1,
+        name: values[1] ? values[1] : '',
+        rosterIds: values[2] ? Array.from(values[2]).filter(v => v != ',').map(v => parseInt(v)) : [],
+        startDate: values[3] ? new Date(values[3]) : new Date(),
+        saveDate: values[4] ? new Date(values[4]) : new Date()
     });
 };
 

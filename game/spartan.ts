@@ -76,15 +76,16 @@ const serializeSpartanHistory = (history: SpartanHistory): string => {
 const deserializeSpartanHistory = (value: string): SpartanHistory => {
     const split = value.split('-');
     const rosters = split[0] ? split[0].split(',').map(x => parseInt(x)) : [0];
-    const vals = split[1] ? split[1].split(',').map(x => parseInt(x));
-
+    const _vals = [-1,-1,-1,-1,-1];
+    var vals = split[1] ? split[1].split(',').map(x => parseInt(x)) : [];
+ 
     return {
         rosters: rosters,
-        matches: vals[0],
-        kills: vals[1],
-        deaths: vals[2],
-        wins: vals[3],
-        losses: vals[4]
+        matches: vals[0] ? vals[0] : -1,
+        kills: vals[1] ? vals[1] : -1,
+        deaths: vals[2] ? vals[2] : -1,
+        wins: vals[3] ? vals[3] : -1,
+        losses: vals[4] ? vals[4] : -1,
     };
 };
 

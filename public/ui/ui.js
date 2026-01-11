@@ -95,7 +95,12 @@ const getMatch = async () => {
         throw new Error(`Response Status: ${res.status}`)
     }   
     const match = await res.json();
-    console.log(match);
+    const idDiv = document.getElementsByClassName('info match-id').item(0);
+    const playersDiv = document.getElementsByClassName('info players').item(0);
+    const logDiv = document.getElementsByClassName('info log').item(0);
+    idDiv.textContent = idDiv.textContent + match.id;
+    playersDiv.textContent = playersDiv.textContent + match.players[0].id;
+    logDiv.textContent = match.log;
 };
 
 setInterval(gameTick, 100);
