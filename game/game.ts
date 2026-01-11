@@ -51,12 +51,12 @@ const handleAddSpartan = async () => {
         return parseInt(val);
     });
     
-    stats.aim        = values[0];
-    stats.awareness  = values[1];
-    stats.reactions  = values[2];
-    stats.aggression = values[3];
-    stats.power      = values[4];
-    stats.teamplay   = values[5];
+    stats.aim        = values[0] ? values[0] : -1;
+    stats.awareness  = values[1] ? values[1] : -1;
+    stats.reactions  = values[2] ? values[2] : -1;
+    stats.aggression = values[3] ? values[3] : -1;
+    stats.power      = values[4] ? values[4] : -1;
+    stats.teamplay   = values[5] ? values[5] : -1;
     stats.trait      = Spartan.generateTraitSelection(values[6]);
     
     const newSpartan = Spartan.createSpartan({ name, bio, id }, 0, stats);

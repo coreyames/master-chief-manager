@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
-import type { Match } from './game/match.js';
-import type { Spartan } from './game/spartan.js'
-import { generateStats } from './game/spartan.js';
+import type { Match } from './game/match.ts';
+import type { Spartan } from './game/spartan.ts'
+import { generateStats } from './game/spartan.ts';
 
 const app = express();
  

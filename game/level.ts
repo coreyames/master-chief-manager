@@ -19,10 +19,10 @@ const serialize = (lvl: Level): string => {
 const deserialize = (value: string): Level => {
     let vals = value.slice(2, value.length-1).split('.');     
     return { 
-        id: parseInt(vals[0]), 
-        name: vals[1], 
-        size: parseInt(vals[2]), 
-        edges: vals[3].split('+').map(e => deserializeEdge(e)) 
+        id: vals[0] ? parseInt(vals[0]) : -1, 
+        name: vals[1] ? vals[1] : '', 
+        size: vals[2] ? parseInt(vals[2]) : -1,
+        edges: vals[3] ? vals[3].split('+').map(e => deserializeEdge(e)) : [] 
     };
 };
 
@@ -45,7 +45,10 @@ const serializePoint = (p: Point): string => {
 
 const deserializePoint = (value: string): Point => {
     const vals = value.slice(1, value.length-1).split(',');
-    return { x: parseFloat(vals[0]), y: parseFloat(vals[1]) };
+    return { 
+        x: vals[0] ? parseFloat(vals[0]) : 0, 
+        y: vals[1] ? parseFloat(vals[1]) : 0
+    };
 };
 
 interface Edge {
@@ -59,7 +62,10 @@ const serializeEdge = (e: Edge): string => {
 
 const deserializeEdge = (value: string): Edge => {
     const vals = value.slice(1, value.length-1).split('-');
-    return { a: deserializePoint(vals[0]), b: deserializePoint(vals[1]) };    
+    return { 
+        a: vals[0] ? deserializePoint(vals[0]) : nanPoint(), 
+        b: vals[1] ? deserializePoint(vals[1]) : nanPoint()
+    };    
 };
 
 // TODO validate edges in a level
