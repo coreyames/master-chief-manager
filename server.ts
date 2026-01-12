@@ -1,5 +1,5 @@
 import express from 'express';
-import cors from 'cors';
+//import cors from 'cors';
 import type { Match } from './game/match.ts';
 import type { Spartan } from './game/spartan.ts'
 import { generateStats } from './game/spartan.ts';
@@ -42,23 +42,26 @@ const testMatch: Match = {
     log: "match loaded"
 };
 
-
-
 app.use(express.static('public'));
 //app.use(cors);
+
 app.get('/match', (req, res) => {
     res.json(testMatch);
 });
-// get the match info to play
 
-/*
-app.get('/', (req, res) => {
-    res.send("")
+app.get('/spartan', (req, res) => {
 });
 
-app.get('/', (req, res) => {
-    res.send("")
+app.get('/roster', (req, res) => {
+    res.send("");
 });
-*/
+
+app.get('/level', (req, res) => {
+    res.send("");
+});
+
+app.get('/profile', (req, res) => {
+    res.send("");
+});
 
 app.listen(3030);

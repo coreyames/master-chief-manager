@@ -8,7 +8,6 @@ const centeringOffsetY = 7;
 
 const player = {
     direction: { x: 0, y: 0 }, // x,y = -1 | 0 | 1 (with respect to positive abstract coords)
-
     x:      -1, y:      -1,     // abstract coords ([0,99], [0,99]), start negative for init 
     row:     0, col:     0,     // child index of row in grid (this grows top down)
     offsetXpx: 0, offsetYpx: 0  // caluculated pixel offset for within a grid cell
@@ -18,9 +17,9 @@ document.onreadystatechange = () => {
     if (document.readyState == 'interactive') {
         document.body.appendChild(playerDiv); 
         movePlayer(0,0);
-        getMatch();          
+        getMatch();      
     }
-};
+}; 
 
 const onKeyDown = (e) => {
     if (e.key == 'ArrowUp') {
@@ -92,15 +91,15 @@ const gameTick = () => {
 const getMatch = async () => {
     const res = await fetch('http://localhost:3030/match');
     if (!res.ok) {
-        throw new Error(`Response Status: ${res.status}`)
+        throw new Error(`Response Status: ${res.status}`);
     }   
     const match = await res.json();
     const idDiv = document.getElementsByClassName('match-id').item(0);
     const playersDiv = document.getElementsByClassName('players').item(0);
-    const logDiv = document.getElementsByClassName('log').item(0);
+    const logInput = document.getElementsByClassName('log').item(0);
     idDiv.textContent = idDiv.textContent + match.id;
     playersDiv.textContent = playersDiv.textContent + match.players[0].id;
-    logDiv.textContent = match.log;
+    logInput.value = match.log;
 };
 
 setInterval(gameTick, 100);
