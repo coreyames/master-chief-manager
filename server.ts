@@ -1,67 +1,75 @@
 import express from 'express';
 //import cors from 'cors';
-import type { Match } from './game/match.ts';
-import type { Spartan } from './game/spartan.ts'
-import { generateStats } from './game/spartan.ts';
+import { testSetBasic } from './game/test_data.ts';
 
 const app = express();
- 
-const testStats = generateStats();
 
-const history = {
-    rosters: [0, 1, 2, 44],
-    matches: 11,
-    kills: 222,
-    deaths: 33,
-    wins: 44,
-    losses: 5,
-};
+// basic test data
+const { 
+    rosters, 
+    spartans, 
+    profiles, 
+    matches, 
+    levels 
+} = testSetBasic;   
 
-const sp = {
-    id: 666, 
-    name: 'testname', 
-    bio: "testbio", 
-    rosterId: 1, 
-    history: history, 
-    stats: testStats, 
-    activeDate: new Date()
-};
-
-
-const testPlayers: Spartan[] = [
-    sp
-];
-
-const testMatch: Match = {
-    players: testPlayers,
-    level: null,
-    positions: new Map([
-        [666,{x:25, y:43}]
-    ]), 
-    id: 3,
-    log: "match loaded"
-};
 
 app.use(express.static('public'));
 //app.use(cors);
 
 app.get('/match', (req, res) => {
-    res.json(testMatch);
+    res.json(matches);
+});
+
+app.get('/match/:matchId(\d+)', (req, res) => {
+    const match = matches.find((m) => {
+        m.id.toString() == req.params.matchId
+    });
+    res.json(match);
 });
 
 app.get('/spartan', (req, res) => {
+    res.json(spartans);
+});
+
+app.get('/spartan/:spartanId(\d+)', (req, res) => {
+    const spartan = spartans.find((s) => {
+        s.id.toString() == req.params.spartanId
+    });
+    res.json(spartan);
 });
 
 app.get('/roster', (req, res) => {
-    res.send("");
+    res.json(rosters);
+});
+
+app.get('/roster/:rosterId(\d+)', (req, res) => {
+    const roster = rosters.find((r) => {
+        r.id.toString() == req.params.rosterId
+    });
+    res.json(roster);
 });
 
 app.get('/level', (req, res) => {
-    res.send("");
+    res.json(levels);
+});
+
+app.get('/level/:levelId(\d+)', (req, res) => {
+    const level = levels.find((l) => {
+        l.id.toString() == req.params.levelId
+    });
+    res.json(level);
 });
 
 app.get('/profile', (req, res) => {
-    res.send("");
+    res.json(profiles);
+});
+
+app.get('/profile/:profileId(\d+)', (req, res) => {
+    const profile = profiles.find((l) => {
+        l.id.toString() == req.params.levelId
+    });
+    res.json(profile);
 });
 
 app.listen(3030);
