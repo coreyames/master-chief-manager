@@ -3,8 +3,14 @@ playerDiv.className = 'player';
 
 const pxRatio = 6;
 
-const centeringOffsetX = 6;
-const centeringOffsetY = 7;
+const playerCenteringOffsetX = 6;
+const playerCenteringOffsetY = 7;
+
+const pointCenteringOffsetX = 5;
+const pointCenteringOffsetY = 4;
+
+const segmentCenteringOffsetX = 4;
+const segmentCenteringOffsetY = 1;
 
 const player = {
     direction: { x: 0, y: 0 },  // x,y = -1 | 0 | 1 (with respect to positive abstract coords)
@@ -12,6 +18,8 @@ const player = {
     row:       0, col:       0,     // child index of row in grid (this grows top down)
     offsetXpx: 0, offsetYpx: 0  // caluculated pixel offset for within a grid cell
 };
+
+const edgePointDivMap = {};
 
 document.onreadystatechange = () => {
     if (document.readyState == 'interactive') {
@@ -45,8 +53,8 @@ const onKeyUp = (e) => {
     }
 };
 
-addEventListener("keydown", onKeyDown); 
-addEventListener("keyup", onKeyUp); 
+addEventListener('keydown', onKeyDown); 
+addEventListener('keyup', onKeyUp); 
 
 const movePlayerToCell = (col, row) => {
     const el = document.getElementsByClassName('col').item(col).getElementsByClassName('row').item(row);
@@ -78,8 +86,8 @@ const movePlayer = (x, y) => {
     const row = 9-parseInt(y / 10);
     const offsetX = x % 10; 
     const offsetY = y % 10;
-    const adjusted_offsetX = (pxRatio * offsetX) - centeringOffsetX; 
-    const adjusted_offsetY = -(pxRatio * offsetY) - centeringOffsetY + 60; 
+    const adjusted_offsetX = (pxRatio * offsetX) - playerCenteringOffsetX; 
+    const adjusted_offsetY = -(pxRatio * offsetY) - playerCenteringOffsetY + 60; 
     movePlayerToCell(col, row);
     movePlayerToOffset({offsetXpx: adjusted_offsetX , offsetYpx: adjusted_offsetY});
 };
@@ -96,8 +104,8 @@ const placePoint = (p) => {
     const row = 9-parseInt(y / 10);
     const offsetX = x % 10; 
     const offsetY = y % 10;
-    const adjusted_offsetX = (pxRatio * offsetX) - centeringOffsetX; 
-    const adjusted_offsetY = -(pxRatio * offsetY) - centeringOffsetY + 60;
+    const adjusted_offsetX = (pxRatio * offsetX) - pointCenteringOffsetX; 
+    const adjusted_offsetY = -(pxRatio * offsetY) - pointCenteringOffsetY + 60;
 
     // "placePointInCell"
     const el = document.getElementsByClassName('col').item(col).getElementsByClassName('row').item(row);
@@ -106,7 +114,28 @@ const placePoint = (p) => {
     // "placePointToOffset"
     pointDiv.style.left = adjusted_offsetX;
     pointDiv.style.top  = adjusted_offsetY;
+    return pointDiv;
 };
+
+const drawSegment = (placedEdge) => { 
+    const segmentDiv = document.createElement('div');
+    segmentDiv.className = 'edge-segment';
+    document.getElementById('grid-main').appendChild(segmentDiv);
+    const { pointA, pointB } = placedEdge;
+    // position segment
+    // use point A to position?
+    segmentDiv.style.left = pointA.offsetLeft + segmentCenteringOffsetX;
+    segmentDiv.style.top = pointA.offsetTop + segmentCenteringOffsetY;
+    const xd = Math.abs(pointB.offsetLeft - pointA.offsetLeft);
+    console.log(xd);
+    const yd = Math.abs(pointB.offsetTop - pointA.offsetTop);
+    console.log(yd);
+    const c = ((xd << 1) + (yd << 1)) >> 1;
+    console.log(c);
+    segmentDiv.style.width = `${c}px`;
+    // TODO - this just adds a horizontal line
+    // TODO - calculate rotation and add to style
+}
 
 const removePlayer = () => {
     playerDiv.parentElement.removeChild(playerDiv);
@@ -117,7 +146,6 @@ const gameTick = () => {
     const y = player.y + player.direction.y;
     movePlayer(x,y);
 };
-
 
 // replace with id endpoint
 const getMatch = async () => {
@@ -132,16 +160,20 @@ const getMatch = async () => {
     idDiv.textContent = idDiv.textContent + match.id;
     playersDiv.textContent = playersDiv.textContent + match.players[0].id;
     logInput.value = match.log;
-    drawLevel(match.level);
+    drawLevel(match.level); 
 };
 
 const drawLevel = (level) => {
     const { id, name, size, edges } = level;
-    console.log(id + ' ' + name + ' ' + size); 
     for (const edge of edges) {
         console.log(edge);        
-        placePoint(edge.a);
-        placePoint(edge.b);
+        const pointA = placePoint(edge.a);
+        const pointB = placePoint(edge.b);
+        console.log(pointA);
+        console.log(pointB);
+        const placedEdge = {pointA, pointB};
+        edgePointDivMap[edge.id] = placedEdge;
+        drawSegment(placedEdge);
     }
 }
 

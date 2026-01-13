@@ -37,6 +37,14 @@ body {
   z-index: 1;
 }
 
+.edge-segment {
+  min-height: 5px;
+  min-width: 1px;
+  background-color: rgb(115, 211, 125);
+  position: fixed;
+  z-index: 1;
+}
+
 .edge-point {
   min-height: 8px;
   max-width: 8px;

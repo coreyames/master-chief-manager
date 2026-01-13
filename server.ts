@@ -22,9 +22,9 @@ app.get('/match', (req, res) => {
 
 app.get('/match/:matchId', (req, res) => {
     const match = matches.find((m) => {
+        // remember that request params are always strings (well i think so at least)
         return m.id == parseInt(req.params.matchId);
     });
-    console.log(match);
     res.json(match);
 });
 
