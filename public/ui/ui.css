@@ -28,13 +28,23 @@ body {
 }
 
 .player {
-    min-height: 12px;
-    max-width: 12px;
-    min-width: 12px;
-    border-radius: 50%;
-    background-color: rgb(229, 127, 227);
-    position: relative;
-    z-index: 1;
+  min-height: 12px;
+  max-width: 12px;
+  min-width: 12px;
+  border-radius: 50%;
+  background-color: rgb(229, 127, 227);
+  position: relative;
+  z-index: 1;
+}
+
+.edge-point {
+  min-height: 8px;
+  max-width: 8px;
+  min-width: 8px;
+  border-radius: 50%;
+  background-color: rgb(253, 251, 253);
+  position: relative;
+  z-index: 1;
 }
 
 .index {

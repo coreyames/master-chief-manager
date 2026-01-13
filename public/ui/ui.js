@@ -7,9 +7,9 @@ const centeringOffsetX = 6;
 const centeringOffsetY = 7;
 
 const player = {
-    direction: { x: 0, y: 0 }, // x,y = -1 | 0 | 1 (with respect to positive abstract coords)
-    x:      -1, y:      -1,     // abstract coords ([0,99], [0,99]), start negative for init 
-    row:     0, col:     0,     // child index of row in grid (this grows top down)
+    direction: { x: 0, y: 0 },  // x,y = -1 | 0 | 1 (with respect to positive abstract coords)
+    x:        -1, y:        -1,     // abstract coords ([0,99], [0,99]), start negative for init 
+    row:       0, col:       0,     // child index of row in grid (this grows top down)
     offsetXpx: 0, offsetYpx: 0  // caluculated pixel offset for within a grid cell
 };
 
@@ -23,11 +23,11 @@ document.onreadystatechange = () => {
 
 const onKeyDown = (e) => {
     if (e.key == 'ArrowUp') {
-        player.direction.y = 1;
+        player.direction.y =  1;
     } else if (e.key == 'ArrowDown') {
         player.direction.y = -1;
     } else if (e.key == 'ArrowRight') {
-        player.direction.x = 1;
+        player.direction.x =  1;
     } else if (e.key == 'ArrowLeft') {
         player.direction.x = -1;
     }
@@ -55,17 +55,23 @@ const movePlayerToCell = (col, row) => {
     player.col = col;
 };
 
-const movePlayerToOffset = (e) => {   
-    playerDiv.style.left = e.offsetXpx;
-    playerDiv.style.top  = e.offsetYpx;
-    player.offsetXpx = e.offsetXpx;
-    player.offsetYpx = e.offsetYpx;
+const movePlayerToOffset = (offsetPixels) => {   
+    playerDiv.style.left = offsetPixels.offsetXpx;
+    playerDiv.style.top  = offsetPixels.offsetYpx;
+    player.offsetXpx = offsetPixels.offsetXpx;
+    player.offsetYpx = offsetPixels.offsetYpx;
 };
 
 const movePlayer = (x, y) => {
     // skip if no change or if trying to go out of bounds
-    if (player.x == x && player.y == y) return;
-    if ((x < 0 || x > 99) || (y < 0 || y > 99)) return;
+    if (player.x == x && player.y == y) {
+        //console.log('no change in position - skipping player move');
+        return;
+    }
+    if ((x < 0 || x > 99) || (y < 0 || y > 99)) {
+        console.log('target position out of bounds');
+        return;
+    }
     player.x = x;
     player.y = y;
     const col = parseInt(x / 10); 
@@ -78,6 +84,30 @@ const movePlayer = (x, y) => {
     movePlayerToOffset({offsetXpx: adjusted_offsetX , offsetYpx: adjusted_offsetY});
 };
 
+const placePoint = (p) => {
+    const { x, y } = p;
+    if ((x < 0 || x > 99) || (y < 0 || y > 99)) {
+        console.log('point out of bounds');
+        return;
+    }
+    const pointDiv = document.createElement('div'); 
+    pointDiv.className = 'edge-point';
+    const col = parseInt(x / 10); 
+    const row = 9-parseInt(y / 10);
+    const offsetX = x % 10; 
+    const offsetY = y % 10;
+    const adjusted_offsetX = (pxRatio * offsetX) - centeringOffsetX; 
+    const adjusted_offsetY = -(pxRatio * offsetY) - centeringOffsetY + 60;
+
+    // "placePointInCell"
+    const el = document.getElementsByClassName('col').item(col).getElementsByClassName('row').item(row);
+    el.appendChild(pointDiv);
+
+    // "placePointToOffset"
+    pointDiv.style.left = adjusted_offsetX;
+    pointDiv.style.top  = adjusted_offsetY;
+};
+
 const removePlayer = () => {
     playerDiv.parentElement.removeChild(playerDiv);
 };
@@ -88,11 +118,13 @@ const gameTick = () => {
     movePlayer(x,y);
 };
 
+
+// replace with id endpoint
 const getMatch = async () => {
-    const res = await fetch('http://localhost:3030/match');
+    const res = await fetch('http://localhost:3030/match/0');
     if (!res.ok) {
         throw new Error(`Response Status: ${res.status}`);
-    }   
+    }
     const match = await res.json();
     const idDiv = document.getElementsByClassName('match-id').item(0);
     const playersDiv = document.getElementsByClassName('players').item(0);
@@ -100,6 +132,17 @@ const getMatch = async () => {
     idDiv.textContent = idDiv.textContent + match.id;
     playersDiv.textContent = playersDiv.textContent + match.players[0].id;
     logInput.value = match.log;
+    drawLevel(match.level);
 };
+
+const drawLevel = (level) => {
+    const { id, name, size, edges } = level;
+    console.log(id + ' ' + name + ' ' + size); 
+    for (const edge of edges) {
+        console.log(edge);        
+        placePoint(edge.a);
+        placePoint(edge.b);
+    }
+}
 
 setInterval(gameTick, 100);
