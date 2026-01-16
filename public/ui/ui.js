@@ -133,8 +133,9 @@ const drawSegment = (placedEdge) => {
     const c = ((xd << 1) + (yd << 1)) >> 1;
     console.log(c);
     segmentDiv.style.width = `${c}px`;
-    // TODO - this just adds a horizontal line
-    // TODO - calculate rotation and add to style
+    const r = Math.atan(yd / xd);
+    segmentDiv.style.rotate = `${r}rad`; 
+    segmentDiv.style.transformOrigin = 'top left';
 }
 
 const removePlayer = () => {
@@ -164,9 +165,9 @@ const getMatch = async () => {
 };
 
 const drawLevel = (level) => {
-    const { id, name, size, edges } = level;
+    const { id, name, size , edges } = level;
     for (const edge of edges) {
-        console.log(edge);        
+        console.log(edge);      
         const pointA = placePoint(edge.a);
         const pointB = placePoint(edge.b);
         console.log(pointA);
