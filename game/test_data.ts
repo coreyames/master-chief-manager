@@ -13,7 +13,7 @@ interface TestSet {
     levels: Level[],
     rosters: Roster[],
     spartans: Spartan[]
-}
+};
 
 // profiles
 const testProfile: Profile = {
@@ -25,7 +25,7 @@ const testProfile: Profile = {
 };
 const testProfiles: Profile[] = [
     testProfile
-]
+];
 
 // a 100x100 map, with just the one edge in it
 // it is a horizontal line across middle, 10 unites long on each side
@@ -33,7 +33,7 @@ const testLevel: Level = {
     id: 0,
     name: "test",
     size: 100, 
-    edges: [{a: {x: 40, y: 60}, b: {x: 60, y: 50}}]
+    edges: [{a: {x: 40, y: 70}, b: {x: 60, y: 50}}]
 };
 const testLevels: Level[] = [
     testLevel

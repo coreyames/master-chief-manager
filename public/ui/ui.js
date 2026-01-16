@@ -126,14 +126,11 @@ const drawSegment = (placedEdge) => {
     // use point A to position?
     segmentDiv.style.left = pointA.offsetLeft + segmentCenteringOffsetX;
     segmentDiv.style.top = pointA.offsetTop + segmentCenteringOffsetY;
-    const xd = Math.abs(pointB.offsetLeft - pointA.offsetLeft);
-    console.log(xd);
-    const yd = Math.abs(pointB.offsetTop - pointA.offsetTop);
-    console.log(yd);
-    const c = ((xd << 1) + (yd << 1)) >> 1;
-    console.log(c);
-    segmentDiv.style.width = `${c}px`;
+    const xd = pointB.offsetLeft - pointA.offsetLeft;
+    const yd = pointB.offsetTop - pointA.offsetTop;
     const r = Math.atan(yd / xd);
+    const c = Math.sqrt((xd*xd) + (yd*yd));
+    segmentDiv.style.width = `${c}px`;
     segmentDiv.style.rotate = `${r}rad`; 
     segmentDiv.style.transformOrigin = 'top left';
 }
