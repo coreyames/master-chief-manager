@@ -3,11 +3,11 @@ playerDiv.className = 'player';
 
 const pxRatio = 6;
 
-const playerCenteringOffsetX = 6;
-const playerCenteringOffsetY = 7;
+const playerCenteringOffsetX  = 6;
+const playerCenteringOffsetY  = 7;
 
-const pointCenteringOffsetX = 5;
-const pointCenteringOffsetY = 4;
+const pointCenteringOffsetX   = 5;
+const pointCenteringOffsetY   = 4;
 
 const segmentCenteringOffsetX = 4;
 const segmentCenteringOffsetY = 1;
@@ -122,8 +122,6 @@ const drawSegment = (placedEdge) => {
     segmentDiv.className = 'edge-segment';
     document.getElementById('grid-main').appendChild(segmentDiv);
     const { pointA, pointB } = placedEdge;
-    // position segment
-    // use point A to position?
     segmentDiv.style.left = pointA.offsetLeft + segmentCenteringOffsetX;
     segmentDiv.style.top = pointA.offsetTop + segmentCenteringOffsetY;
     const xd = pointB.offsetLeft - pointA.offsetLeft;
@@ -164,11 +162,8 @@ const getMatch = async () => {
 const drawLevel = (level) => {
     const { id, name, size , edges } = level;
     for (const edge of edges) {
-        console.log(edge);      
         const pointA = placePoint(edge.a);
         const pointB = placePoint(edge.b);
-        console.log(pointA);
-        console.log(pointB);
         const placedEdge = {pointA, pointB};
         edgePointDivMap[edge.id] = placedEdge;
         drawSegment(placedEdge);

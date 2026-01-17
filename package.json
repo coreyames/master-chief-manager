@@ -18,7 +18,8 @@
   "homepage": "https://github.com/coreyames/master-chief-manager#readme",
   "type": "module",
   "devDependencies": {
-    "@types/node": "^24.3.0"
+    "@types/node": "^24.3.0",
+    "ts-blank-space": "^0.6.2"
   },
   "dependencies": {
     "@types/cors": "^2.8.19",

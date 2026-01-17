@@ -1,9 +1,6 @@
-import { nanPoint } from './level.js';
+import { nanPoint, isNaNpoint } from './level.js';
 import type { Edge, Point, Level } from './level.ts';
-import { runMatch } from './match.js';
 import type { Match } from './match.ts';
-import type { Spartan } from './spartan.ts';
-import { createSpartan, generateStats } from './spartan.js';
 
 const PI_OVER_180: number = 0.017453;
 
@@ -12,6 +9,7 @@ const PI_OVER_180: number = 0.017453;
     PolyK library
 	url: http://polyk.ivank.net
 */
+
 const rayIntersectEdge = (origin: Point, direction: Point, edge: Edge, distance?: number): Point => {
     const p: Point = nanPoint();
     
@@ -35,53 +33,41 @@ const rayIntersectEdge = (origin: Point, direction: Point, edge: Edge, distance?
     return p;
 };
 
+/*
+given set S of spartans {s,...} with position s.p: Point, direction s.d: Point
+    and decision function s.f: (C: {collisions}) => <action>
+given level l with set E of edges {e,...}
+given ray cast degree interval r
+given field of view angle v
+
+nav during game tick:
+    if (use actions queue) actions = []
+    for s of S:
+        ray cast from s.p towards s.d;
+        repeat this every r degrees up to f/2 degrees from s.d    
+        collect collision set C of collisions {c,...}
+        call s.f(C) to get the tick action for s
+        if (actions): 
+            append to actions
+    if (actions)
+        reorder ? actions.shuffle(priority_function: null | f()); 
+        actions.execute()
+*/
+
+/*
+
+*/
+
+const raycast = (origin: Point, direction: Point, fov: number, match: Match) => {
+    const collisions: Map<Point, Point> = new Map(); 
+    // CREATE 4 edges for EACH OTHER SPARTAN'S CURRENT POSITION - HITBOX
+    for (const edge of match.level.edges) {
+        const c = rayIntersectEdge(origin, direction, edge);
+        collisions.set(direction, c);
+    }   
+};
+
 export { rayIntersectEdge };
-
-// 10x10 level with a 2 unit horizontal edge in the middle (x: 4-> 6, y: 5)
-
-const testEdges: Edge[] = [
-    {a: {x: 4, y: 5}, b: {x: 6, y: 5}}
-];
-
-const testLevel: Level = {
-    id: 0,
-    name: "test",
-    size: 10, 
-    edges: testEdges
-};
-
-const testStats = generateStats();
-
-const history = {
-    rosters: [0, 1, 2, 44],
-    matches: 11,
-    kills: 222,
-    deaths: 33,
-    wins: 44,
-    losses: 5,
-};
-
-const testPlayers: Spartan[] = [
-    {
-        id: 0, 
-        name: 'testname', 
-        bio: "testbio", 
-        rosterId: 0, 
-        history: history, 
-        stats: testStats, 
-        activeDate: new Date()
-    }
-];
-
-const testMatch: Match = {
-    id: 0,
-    level: testLevel,
-    players: testPlayers,
-    positions: new Map(), 
-    log: "",
-};
-
-runMatch(testMatch);
 
 // test intersect edge
 /*

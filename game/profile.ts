@@ -1,5 +1,5 @@
 // profile ---------
-type Profile = {
+interface Profile {
     id: number,
     name: string,
     rosterIds: number[],
