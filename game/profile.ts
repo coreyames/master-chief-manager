@@ -1,14 +1,14 @@
 // profile ---------
 interface Profile {
     id: number,
-    name: string,
+    name: String,
     rosterIds: number[],
     startDate: Date,
     saveDate: Date
 };
 
 // P:<id>.<name>.<ids,...>.<mm-dd-yyyy>.<mm-dd-yyyy>;
-const serialize = (profile: Profile): string => {
+const serialize = (profile: Profile): String => {
     let pstr = 'P:' + profile.id + '.' + profile.name + '.'; 
     
     pstr += profile.rosterIds.toString() + '.';
@@ -24,7 +24,7 @@ const serialize = (profile: Profile): string => {
     return pstr;
 };
 
-const deserialize = (value: string): Profile => {
+const deserialize = (value: String): Profile => {
     let values = value.substring(2, value.length - 1).split('.');
     return ({
         id: values[0] ? parseInt(values[0]) : -1,

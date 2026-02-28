@@ -1,8 +1,8 @@
 // spartan ---------
 interface SpartanBaseConfig {
     id: number,
-    name: string,
-    bio: string,
+    name: String,
+    bio: String,
 };
 
 const TraitEnum = {
@@ -140,7 +140,7 @@ const createSpartan = (config: SpartanBaseConfig, rosterId?: number, stats?: Spa
     };
 };
 
-const serialize = (spartan: Spartan): string => {
+const serialize = (spartan: Spartan): String => {
 	let spstr = 'S:' + spartan.id + '.' + spartan.name + '.' + spartan.bio + '.' 
         + spartan.rosterId  +'.';
 
@@ -155,7 +155,7 @@ const serialize = (spartan: Spartan): string => {
 };
 
 // S:<id>.<name>.<bio>.<rosterId.<activeDate mm-dd-yyyy>.<stats>.<history>;
-const deserialize = (value: string): Spartan => {
+const deserialize = (value: String): Spartan => {
 	let split = value.substring(2, value.length - 1).split('.');
     
     let ds = {

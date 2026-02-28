@@ -33,7 +33,8 @@ const testLevel: Level = {
     id: 0,
     name: "test",
     size: 100, 
-    edges: [{a: {x: 40, y: 70}, b: {x: 60, y: 50}}]
+    edges: [{a: {x: 40, y: 70}, b: {x: 60, y: 50}}],
+    spawns: []
 };
 const testLevels: Level[] = [
     testLevel

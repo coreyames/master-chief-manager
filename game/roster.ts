@@ -5,7 +5,7 @@ interface Roster  {
     spartans: number[]    
 };
 
-const createRoster = (name: string, id: number, spartanIds?: number[]): Roster => {
+const createRoster = (name: String, id: number, spartanIds?: number[]): Roster => {
     let newRoster = { 
         id, 
         name, 
@@ -14,14 +14,14 @@ const createRoster = (name: string, id: number, spartanIds?: number[]): Roster =
     return newRoster;
 };
 
-const serialize = (roster: Roster): string => {
+const serialize = (roster: Roster): String => {
     let rStr = 'R:' + roster.id + '.' + roster.name; 
     let spStr = roster.spartans.toString();
     rStr += '.' + spStr + ';';
     return rStr;
 };
 
-const deserialize = (value: string): Roster => {
+const deserialize = (value: String): Roster => {
     const _value = value.substring(2, value.length - 1);
     const valueSplit = _value.split('.');
     const idStr = valueSplit[0];

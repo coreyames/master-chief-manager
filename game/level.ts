@@ -3,16 +3,22 @@ interface Level {
     id: number,
     name: string,
     size: number,
-    edges: Edge[]
+    edges: Edge[],
+    spawns: Point[]
 };
 
-const serialize = (lvl: Level): string => {
+const serialize = (lvl: Level): String => {
     let value = 'L:' + lvl.id + '.' + lvl.name + '.' + lvl.size + '.';
     for (const e of lvl.edges) {
         value += serializeEdge(e) + '+';
     }
     value = value.slice(0, value.length-1);
-    value += ';'
+    value += '.';
+    for (const p of lvl.spawns) {
+        value += serializePoint(p) + '+';
+    }
+    value = value.slice(0, value.length-1);
+    value += ';';
     return value;
 };
 
@@ -22,7 +28,8 @@ const deserialize = (value: string): Level => {
         id: vals[0] ? parseInt(vals[0]) : -1, 
         name: vals[1] ? vals[1] : '', 
         size: vals[2] ? parseInt(vals[2]) : -1,
-        edges: vals[3] ? vals[3].split('+').map(e => deserializeEdge(e)) : [] 
+        edges: vals[3] ? vals[3].split('+').map(e => deserializeEdge(e)) : [],
+        spawns: vals[4] ? vals[4].split('+').map(p => deserializePoint(p)) : [] 
     };
 };
 
@@ -39,7 +46,7 @@ const nanPoint = (): Point => {
     return { x: NaN, y: NaN };
 }
 
-const serializePoint = (p: Point): string => {
+const serializePoint = (p: Point): String => {
     return "(" + p.x + ',' + p.y + ")";
 };
 
@@ -56,11 +63,11 @@ interface Edge {
     b: Point
 };
 
-const serializeEdge = (e: Edge): string => {
+const serializeEdge = (e: Edge): String => {
     return '[' + serializePoint(e.a) + '-' + serializePoint(e.b) + ']';
 };
 
-const deserializeEdge = (value: string): Edge => {
+const deserializeEdge = (value: String): Edge => {
     const vals = value.slice(1, value.length-1).split('-');
     return { 
         a: vals[0] ? deserializePoint(vals[0]) : nanPoint(), 
