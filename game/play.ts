@@ -2,7 +2,9 @@ import { nanPoint, isNaNpoint } from './level.js';
 import type { Edge, Point, Level } from './level.ts';
 import type { Match } from './match.ts';
 
-const PI_OVER_180: number = 0.017453;
+//const PI_OVER_180: number = 0.017453;
+const DEFAULT_FOV: number = 90;
+const NORMALIZED_DEGREE: number = 1.0/45.0;
 
 /*  ray-edge intersect implementation sourced from:
     
@@ -59,15 +61,28 @@ nav during game tick:
 */
 
 const raycast = (origin: Point, direction: Point, fov: number, match: Match) => {
+    if (fov == 0) {
+        fov = DEFAULT_FOV;
+    }
+
+    const viewWidth = fov * NORMALIZED_DEGREE;
+
     const collisions: Map<Point, Point> = new Map(); 
-    // CREATE 4 edges for EACH OTHER SPARTAN'S CURRENT POSITION - HITBOX
-    for (const edge of match.level.edges) {
-        const c = rayIntersectEdge(origin, direction, edge);
-        collisions.set(direction, c);
+    
+    // TODO: CREATE 4 edges for EACH OTHER SPARTAN'S CURRENT POSITION 4 HITBOX, CONCAT WITH EDGES
+    const allEdges: Edge[] = match.level.edges;
+    // const allEdges = generateSpartanHitboxes + match.level.edges
+    for (const edge of allEdges) {
+        var x: number = direction.x-(viewWidth/2);
+        for (x; x <= x+viewWidth; x+=NORMALIZED_DEGREE) {
+            const castDir: Point = {x: x, y: direction.y};
+            const c = rayIntersectEdge(origin, castDir, edge);
+            collisions.set(direction, c);
+        }
     }   
 };
 
-export { rayIntersectEdge };
+export { rayIntersectEdge, raycast };
 
 // test intersect edge
 /*

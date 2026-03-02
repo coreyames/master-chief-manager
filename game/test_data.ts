@@ -83,8 +83,9 @@ const testMatch: Match = {
     level: testLevel,
     players: testSpartans,
     positions: new Map(), 
-    log: ""
+    records: []
 };
+
 const testMatches: Match[] = [
     testMatch
 ]

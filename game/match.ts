@@ -6,7 +6,7 @@ interface Match {
     level: Level,
     positions: Map<number, Point>
     id: number,
-    log: String
+    records: MatchRecord[]
 };
 
 interface MatchRecord {
@@ -16,12 +16,14 @@ interface MatchRecord {
 }
 
 interface GameTick {
-    turns: Turn[]
+    turns: Turn[],
+    log: String
 }
 
 interface Turn {
     movement: Point,
-    action: String
+    action: String,
+    received: String
 }
 
 const runMatch = (match: Match) => {
